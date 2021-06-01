@@ -31,6 +31,7 @@ class FormularioDinamico extends React.Component {
 
     this.setState({ json: output });
     console.log(JSON.stringify(output));
+    alert("Dados enviados! Favor verificar console");
 
     e.preventDefault();
   }
@@ -42,7 +43,7 @@ class FormularioDinamico extends React.Component {
         {sortedData.map((campo) => {
           if (campo.type !== "select") {
             return (
-              <div key={campo.id}>
+              <div key={campo.id} className="input-container">
                 <label for={campo.id}>{campo.label}: </label>
                 <input
                   type={campo.type}
@@ -55,7 +56,7 @@ class FormularioDinamico extends React.Component {
             );
           } else {
             return (
-              <div key={campo.id}>
+              <div key={campo.id} className="input-container">
                 <label for={campo.id}>{campo.label}: </label>
                 <select name={campo.name} className="input" id={campo.id}>
                   {campo.options.map((option, key) => {
@@ -70,7 +71,10 @@ class FormularioDinamico extends React.Component {
             );
           }
         })}
-        <button type="submit">Enviar</button>
+        <div className="button-container">
+          <button type="submit">Enviar</button>
+          <button type="reset">Limpar</button>
+        </div>
       </form>
     );
   }
