@@ -11,31 +11,27 @@ let sortedData = formData.campos.sort(function (a, b) {
   return 0;
 });
 
-let temp = [];
-
 class FormularioDinamico extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: [
-        {
-          type: "",
-          value: "",
-        },
-      ],
+      json: [],
     };
-    this.handleChange = this.handleChange.bind(this);
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e, name) {
-    this.setState({
-      value: [...this.state.input, { type: name, value: e.target.value }],
-    });
-  }
-
   handleSubmit(e) {
-    console.log(JSON.stringify(this.state));
+    let output = [];
+    let inputs = document.querySelectorAll(".input");
+
+    inputs.forEach((input) => {
+      output.push({ [input.name]: input.value });
+    });
+
+    this.setState({ json: output });
+    console.log(JSON.stringify(output));
+
     e.preventDefault();
   }
 
@@ -49,11 +45,11 @@ class FormularioDinamico extends React.Component {
               <div key={campo.id}>
                 <label for={campo.id}>{campo.label}: </label>
                 <input
-                  onChange={(e) => this.handleChange(e, campo.name)}
                   type={campo.type}
                   placeholder={campo.label}
                   id={campo.id}
                   name={campo.name}
+                  className="input"
                 />
               </div>
             );
@@ -61,10 +57,7 @@ class FormularioDinamico extends React.Component {
             return (
               <div key={campo.id}>
                 <label for={campo.id}>{campo.label}: </label>
-                <select
-                  name={campo.name}
-                  id={campo.id}
-                  onChange={(e) => this.handleChange(e, campo.name)}>
+                <select name={campo.name} className="input" id={campo.id}>
                   {campo.options.map((option, key) => {
                     return (
                       <option key={key} value={option.value}>
